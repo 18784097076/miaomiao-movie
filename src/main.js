@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 
 Vue.filter('formatImgUrl', (value, w, h)=>{
-  return value.replace('w.h', w + '.' + h)
+  return value.replace(/w\.h/, w + '.' + h)
 })
 
 // 全局注册 Scroller 组件

@@ -5,9 +5,9 @@
     <Scroller v-else :handleToScroll="handleToScroll" :handleToScrollEnd="handleToScrollEnd">
       <ul>
         <li v-for="movie in nowPlayingList" :key="movie.id">
-          <div class="pic_show"><img :src="movie.img | formatImgUrl(120, 180)" /></div>
+          <div class="pic_show" @touchstart="goDetail(movie.id)"><img :src="movie.img | formatImgUrl(120, 180)" /></div>
           <div class="info_list">
-            <h2>
+            <h2 @touchstart="goDetail(movie.id)">
               {{movie.nm}}
               <img v-if="movie.version" :src="require(`@/assets/${movie.version=='v2d imax'?'2':'3'}d.png`)"/>
             </h2>
@@ -45,6 +45,9 @@ export default {
       handleToScrollEnd(pos) {
         // 滚动完成
         console.log('滚动完成',pos)
+      },
+      goDetail(movieId) {
+        this.$router.push('/movie/detail/1/' + movieId)
       }
     },
     activated() {

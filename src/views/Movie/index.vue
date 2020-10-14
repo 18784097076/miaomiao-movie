@@ -17,10 +17,14 @@
       </div>
 
       <keep-alive>
+        <!-- city nowPlaying comingSonn search组件的路由出口 -->
         <router-view/>
       </keep-alive>
     </div>
     
+    <!-- detail组件的路由出口 -->
+    <router-view name="detail"></router-view>
+
     <TabBar/>
   </div>
 </template>
