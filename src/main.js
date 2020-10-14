@@ -11,6 +11,14 @@ Vue.filter('formatImgUrl', (value, w, h)=>{
   return value.replace('w.h', w + '.' + h)
 })
 
+// 全局注册 Scroller 组件
+import Scroller from '@/components/Scroller'
+Vue.component('Scroller',Scroller)
+
+// 全局注册Loading组件
+import Loading from '@/components/Loading'
+Vue.component('Loading', Loading)
+
 new Vue({
   router,
   store,

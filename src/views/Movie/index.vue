@@ -1,10 +1,11 @@
 <template>
   <div id="main">
     <HeaderTop/>
+
     <div id="content">
       <div class="movie_menu">
         <router-link tag="div" to="/movie/city" class="city_name">
-          <span>大连</span><i class="iconfont icon-lower-triangle"></i>
+          <span>{{$store.state.city.nowCity}}</span><i class="iconfont icon-lower-triangle"></i>
         </router-link>
         <div class="hot_swtich">
           <router-link to="/movie/nowPlaying" tag="div" class="hot_item">正在热映</router-link>
@@ -27,6 +28,7 @@
 <script>
 import HeaderTop from "@/components/HeaderTop";
 import TabBar from "@/components/TabBar";
+import { messageBox } from '@/components/JS'
 
 export default {
   name: 'Movie',
@@ -34,6 +36,26 @@ export default {
     HeaderTop,
     TabBar
   },
+  mounted() {
+    setTimeout(()=>{
+      // 调用获取位置api   返回城市id 和 nm
+      // 如果返回的id和store中的nowId一致，那么就不应该弹出messageBox
+      messageBox({
+        title: '定位',
+        content: '上海',
+        cancel: '取消',
+        ok: '切换定位',
+        handleCancel() {
+          console.log('取消')
+        },
+        handleOK() {
+          console.log('确认')
+          // 点击切换之后，应该修改localstrage中的nowCity和nowId
+          // 然后window.location.reload()   重新加载页面
+        }
+      })
+    }, 3000)
+  }
 };
 </script>
 

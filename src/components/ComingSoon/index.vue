@@ -1,19 +1,22 @@
 <template>
   <div class="movie_body">
-    <ul>
-      <li v-for="movie in comingSoonList" :key="movie.id">
-        <div class="pic_show"><img :src="movie.img | formatImgUrl(120, 180)" /></div>
-        <div class="info_list">
-          <h2>{{movie.nm}}
-            <img v-if="movie.version" :src="require(`@/assets/${movie.version=='v2d imax'?'2':'3'}d.png`)"/>
-          </h2>
-          <p><span class="person">{{movie.wish}}</span> 人想看</p>
-          <p>主演: {{movie.star}}</p>
-          <p>{{movie.rt}}上映</p>
-        </div>
-        <div class="btn_pre">预售</div>
-      </li>
-    </ul>
+    <Loading v-if="isLoading"/>
+    <Scroller v-else>
+      <ul>
+        <li v-for="movie in comingSoonList" :key="movie.id">
+          <div class="pic_show"><img :src="movie.img | formatImgUrl(120, 180)" /></div>
+          <div class="info_list">
+            <h2>{{movie.nm}}
+              <img v-if="movie.version" :src="require(`@/assets/${movie.version=='v2d imax'?'2':'3'}d.png`)"/>
+            </h2>
+            <p><span class="person">{{movie.wish}}</span> 人想看</p>
+            <p>主演: {{movie.star}}</p>
+            <p>{{movie.rt}}上映</p>
+          </div>
+          <div class="btn_pre">预售</div>
+        </li>
+      </ul>
+    </Scroller>
   </div>
 </template>
 
@@ -22,13 +25,20 @@ export default {
   name: 'ComingSoon',
   data() {
     return {
-      comingSoonList: []
+      comingSoonList: [],
+      isLoading: true,
+      prevCityId: -1
     }
   },
-  mounted() {
+  activated() {
+    let nowId = this.$store.state.city.nowId
+    if(this.prevCityId == nowId){
+      return;
+    }
+    this.isLoading = true
     this.$axios.get('/ajax/comingList',{
       params: {
-        ci: 40,
+        ci: nowId,
         token: '',
         limit: 10,
         optimus_uuid: 'BEDC8590053911EB9A5577ABB602C988CEF95AB0B1994C41A216B22F0A914DCB',
@@ -36,9 +46,10 @@ export default {
         optimus_code: 10,
       }
     }).then(res => {
-      console.log(res.data.coming)
       if(res.status == 200) {
         this.comingSoonList = res.data.coming
+        this.isLoading = false
+        this.prevCityId = nowId
       }
     })
   }

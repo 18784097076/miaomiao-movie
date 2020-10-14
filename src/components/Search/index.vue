@@ -51,7 +51,7 @@ export default {
       this.$axios.get('/ajax/search',{
         params: {
           kw: this.kw,
-          cityId: "40",
+          cityId: this.$store.state.city.nowId,
           stype: "-1",
         },
         cancelToken: new this.$axios.CancelToken((cancel) => {
