@@ -4,9 +4,9 @@
     <Scroller v-else>
       <ul>
         <li v-for="movie in comingSoonList" :key="movie.id">
-          <div class="pic_show"><img :src="movie.img | formatImgUrl(120, 180)" /></div>
+          <div class="pic_show" @touchstart="goDetail(movie.id)"><img :src="movie.img | formatImgUrl(120, 180)" /></div>
           <div class="info_list">
-            <h2>{{movie.nm}}
+            <h2 @touchstart="goDetail(movie.id)">{{movie.nm}}
               <img v-if="movie.version" :src="require(`@/assets/${movie.version=='v2d imax'?'2':'3'}d.png`)"/>
             </h2>
             <p><span class="person">{{movie.wish}}</span> 人想看</p>
@@ -52,6 +52,12 @@ export default {
         this.prevCityId = nowId
       }
     })
+  },
+  methods: {
+    goDetail(movieId) {
+      console.log(movieId)
+      this.$router.push('/movie/detail/2/' + movieId)
+    }
   }
 };
 </script>
